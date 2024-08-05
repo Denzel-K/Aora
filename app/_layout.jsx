@@ -33,7 +33,7 @@ const RootLayout = () => {
     return null;
   }
 
-  if (fontsLoaded && !error) {
+  if (!fontsLoaded && !error) {
     return null;
   }
 

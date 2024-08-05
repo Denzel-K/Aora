@@ -9,9 +9,8 @@ function Welcome() {
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView
-        contentContainerStyle={{
-          height: "100%",
-        }}
+        
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
       >
         <View className="w-full flex justify-center items-center min-h-[85vh] px-4">
           <Image
