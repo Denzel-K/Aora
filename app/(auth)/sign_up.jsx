@@ -9,7 +9,11 @@ import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
 import {createUser} from '@/lib/appwrite'
 
+import { useGlobalContext } from '@/context/GlobalProvider';
+
 const SignUp = () => {
+  const { setUser, setIsLoggedIn } = useGlobalContext();
+
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     username: "",
@@ -25,13 +29,15 @@ const SignUp = () => {
     setSubmitting(true);
     try {
       const result = await createUser(form.email, form.password, form.username);
-      // setUser(result);
-      // setIsLogged(true);
+      setUser(result);
+      setIsLoggedIn(true);
 
       router.push("/home");
-    } catch (error) {
+    } 
+    catch (error) {
       Alert.alert("Error", error.message);
-    } finally {
+    } 
+    finally {
       setSubmitting(false);
     }
   }

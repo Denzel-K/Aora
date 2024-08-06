@@ -27,7 +27,7 @@ const TrendingItem = ({activeItem, item}) => {
 
   return (
     <Animatable.View
-      className="mr-5"
+      className="mr-2"
       animation={activeItem === item.$id? zoomIn : zoomOut}
     >
       {play ? (
@@ -49,7 +49,7 @@ const TrendingItem = ({activeItem, item}) => {
             source={{
               uri: item.thumbnail,
             }}
-            className="w-52 h-72 rounded-xl my-5 overflow-hidden shadow-lg shadow-black/40"
+            className="w-52 h-72 rounded-3xl my-5 overflow-hidden shadow-lg shadow-black/40"
             resizeMode="cover"
           />
 

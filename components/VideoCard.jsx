@@ -1,11 +1,18 @@
 import { useState } from "react";
 import { ResizeMode, Video } from "expo-av";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-
-import { icons } from "../constants";
+import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
+import { icons } from "@/constants";
 
 const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
   const [play, setPlay] = useState(false);
+  const [videoStatus, setVideoStatus] = useState({});
+  const [error, setError] = useState(null);
+
+  const handleVideoError = (error) => {
+    console.log('Video Error:', error);
+    Alert.alert('Playback Error', 'Unable to play the video. Please try again later.');
+    setError('Unable to play the video. Please try again later.');
+  };
 
   return (
     <View className="flex flex-col items-center px-4 mb-14">
@@ -42,15 +49,20 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
 
       {play ? (
         <Video
-          source={{ uri: video }}
+          source={{
+            uri: video
+          }}
           className="w-full h-60 rounded-xl mt-3"
           resizeMode={ResizeMode.CONTAIN}
           useNativeControls
           shouldPlay
+          onError={(error) => handleVideoError(error)}
           onPlaybackStatusUpdate={(status) => {
+            setVideoStatus(status);
             if (status.didJustFinish) {
               setPlay(false);
             }
+            console.log('Playback Status:', status);
           }}
         />
       ) : (
@@ -72,6 +84,16 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
           />
         </TouchableOpacity>
       )}
+
+      {error && (
+        <Text className="text-xs text-red-500 mt-2">
+          {error}
+        </Text>
+      )}
+
+      <Text className="text-xs text-gray-100 mt-2">
+        {JSON.stringify(videoStatus)}
+      </Text>
     </View>
   );
 };

@@ -35,7 +35,8 @@ const GlobalProvider = ({ children }) => {
         setIsLoading,
         isLoggedIn,
         setIsLoggedIn,
-        user
+        user,
+        setUser
       }}
     >
       {children}
