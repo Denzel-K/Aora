@@ -1,40 +1,54 @@
-import { View, Text, FlatList, Image } from 'react-native';
+import { View, Text, FlatList, Image, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { RefreshControl } from 'react-native';
+import { useState, useEffect } from 'react';
 
 import { images } from "../../constants";
+
 import SearchInput from '@/components/SearchInput';
 import Trending from '@/components/Trending';
 import EmptyState from '@/components/EmptyState';
-import { RefreshControl } from 'react-native';
+import VideoCard from '@/components/VideoCard';
+
+import { getAllPosts, getLatestPosts } from '@/lib/appwrite';
+import useAppwrite from '@/hooks/useAppwrite';
 
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false);
+  const {data: posts, refetch} = useAppwrite(getAllPosts);
+  const {data: latestPosts} = useAppwrite(getLatestPosts);
+
 
   const onRefresh = async () => {
     setRefreshing(true);
-    //await refetch();
+    await refetch();
     setRefreshing(false);
   };
 
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList 
-        data={[]}
-        keyExtractor={(item) => item.id}
+        data={posts}
+        keyExtractor={(item) => item.$id}
         renderItem={({item}) => (
-          <Text>{item.id}</Text>
+          <VideoCard
+            title={item.title}
+            thumbnail={item.thumbnail}
+            video={item.video}
+            creator={item.creator.username}
+            avatar={item.creator.avatar}
+          />
         )}
         ListHeaderComponent={() => (
           <View className="flex my-6 px-4 space-y-6">
             <View className="flex justify-between items-start flex-row mb-6">
               <View>
-                <Text className="font-pmedium text-xl font-semibold text-gray-100">
+                <Text className="font-pmedium text-2xl font-semibold text-gray-100">
                   Welcome Back
                 </Text>
-                <Text className="text-sm font-psemibold text-gray-400">
-                  @mandrillTech
+                <Text className="text-base font-psemibold text-gray-400">
+                  @jackthereaper
                 </Text>
               </View>
 
@@ -50,11 +64,11 @@ const Home = () => {
             <SearchInput />
 
             <View className="w-full flex-1 pt-5 pb-8">
-              <Text className="text-lg font-pregular text-gray-100 mb-3">
+              <Text className="text-lg font-pregular text-gray-100 mb-2">
                 Latest Videos
               </Text>
 
-              <Trending posts={[]} />
+              <Trending latestPosts={latestPosts ?? []} />
             </View>
           </View>
         )}
