@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Image, FlatList, TouchableOpacity } from "react-native";
+import { StatusBar } from 'expo-status-bar';
 
 import { icons } from "@/constants";
 import useAppwrite from "@/hooks/useAppwrite";
@@ -86,6 +87,8 @@ const Profile = () => {
           </View>
         )}
       />
+
+    <StatusBar backgroundColor="#161622" style="light" />
     </SafeAreaView>
   );
 };

@@ -62,7 +62,6 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
             if (status.didJustFinish) {
               setPlay(false);
             }
-            console.log('Playback Status:', status);
           }}
         />
       ) : (
@@ -90,10 +89,6 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
           {error}
         </Text>
       )}
-
-      <Text className="text-xs text-gray-100 mt-2">
-        {JSON.stringify(videoStatus)}
-      </Text>
     </View>
   );
 };
